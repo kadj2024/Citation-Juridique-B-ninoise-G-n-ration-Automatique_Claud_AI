@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 kadj2024
+Copyright (c) 2026 SAHAGUI K. Saddam & Claude AI (Anthropic)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,30 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+───────────────────────────────────────────────────────────────────────────────
+
+INFORMATIONS COMPLÉMENTAIRES / ADDITIONAL INFORMATION
+
+Nom du projet   : Citation Juridique Béninoise — Skill ED-SJPA/UAC
+Auteurs         : SAHAGUI K. Saddam & Claude AI (Anthropic)
+Année           : 2026
+Dépôt           : https://github.com/saddamsahagui/citation-juridique-beninoise
+
+Ce projet implémente les normes de citation définies dans :
+  GBADAMASSI (E. D.), Notes de bas de pages et notes bibliographiques :
+  Rédaction pratique — L'essentiel à retenir, UAC/ED-SJPA,
+  Master 2 Droit Privé Fondamental, Année 2022-2023.
+
+La référence normative citée ci-dessus reste la propriété intellectuelle
+de son auteur, E. David GBADAMASSI. Ce projet n'en revendique aucun droit.
+Il constitue uniquement une implémentation technique des règles qui y sont
+décrites, à des fins académiques et pédagogiques.
+
+───────────────────────────────────────────────────────────────────────────────
+
+This project implements citation standards defined in the reference work by
+E. David GBADAMASSI (UAC/ED-SJPA, 2022-2023). The normative reference
+remains the intellectual property of its author. This project claims no
+rights over it and is solely a technical implementation of the rules
+described therein, for academic and educational purposes.

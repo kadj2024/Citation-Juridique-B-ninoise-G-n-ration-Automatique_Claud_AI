@@ -1,0 +1,246 @@
+name: citation-juridique-beninoise
+
+description: >
+  Génère automatiquement des notes de bas de page et des références bibliographiques
+  complètes selon les normes académiques de l'ED-SJPA (École Doctorale des Sciences
+  Juridiques, Politiques et Administratives) de l'Université d'Abomey-Calavi (UAC),
+  Bénin. Utiliser ce skill dès que l'utilisateur fournit des données bibliographiques
+  (auteur, titre, année, éditeur, URL, DOI, etc.) et demande à générer des citations,
+  des références, des notes de bas de page, une bibliographie, ou un rapport de
+  références. Également déclencher pour toute demande de "mise en forme bibliographique",
+  "formatter mes références", "générer ma bibliographie", "créer les notes de bas de page",
+  ou toute demande impliquant des citations juridiques académiques béninoises/françaises.
+  Produit en sortie un rapport Word (.docx) structuré avec deux sections distinctes :
+  notes de bas de page et références bibliographiques.
+
+version: "1.0.0"
+auteur: E. David GBADAMASSI (référence normative) — Skill généré automatiquement
+institution: UAC / ED-SJPA — Master 2 Droit Privé Fondamental
+annee_reference: "2022-2023"
+
+# ─── DÉPENDANCES ───────────────────────────────────────────────────────────────
+compatibilite:
+  outils_requis:
+    - bash_tool
+    - web_search
+    - present_files
+  packages_npm:
+    - name: docx
+      version: ">=8.0.0"
+      install: "npm install -g docx"
+  langage: Node.js >= 16
+
+# ─── FICHIERS DU SKILL ─────────────────────────────────────────────────────────
+fichiers:
+  - chemin: SKILL.md
+    role: Instructions principales du workflow (6 étapes)
+  - chemin: references/champs-requis.md
+    role: Champs obligatoires et facultatifs par type de source (17 types)
+  - chemin: references/formules-citation.md
+    role: Formules exactes de citation avec exemples normalisés
+  - chemin: references/generate-rapport.js
+    role: Script Node.js de génération du rapport Word (.docx)
+
+# ─── TYPES DE SOURCES SUPPORTÉS ───────────────────────────────────────────────
+types_sources:
+  - code: OUVRAGE
+    label: Ouvrage général ou spécialisé (1 ou 2 auteurs)
+  - code: OUVRAGE_MULTI
+    label: Ouvrage avec 3 auteurs ou plus (et alii.)
+  - code: OUVRAGE_DIR
+    label: Ouvrage collectif sous direction
+  - code: FASCICULE
+    label: Fascicule de cours universitaire
+  - code: ARTICLE
+    label: Article de doctrine dans une revue
+  - code: CONTRIBUTION
+    label: Contribution individuelle dans un mélange ou ouvrage collectif
+  - code: MEMOIRE
+    label: Mémoire de Master
+  - code: THESE
+    label: Thèse de Doctorat
+  - code: MELANGE
+    label: Ouvrage de mélanges (en l'honneur de)
+  - code: RAPPORT
+    label: Rapport, atelier ou acte de colloque
+  - code: ETUDE
+    label: Étude, observation, recueil, discours, émission, communiqué
+  - code: AUDIOVISUEL
+    label: Support audiovisuel (émission radio, podcast, etc.)
+  - code: LOI
+    label: Ressource législative (loi, décret, arrêté)
+  - code: JURISPRUDENCE
+    label: Décision de justice
+  - code: LEXIQUE
+    label: Lexique, vocabulaire ou dictionnaire juridique
+  - code: WEB
+    label: Ressource web / webographie
+
+# ─── WORKFLOW ─────────────────────────────────────────────────────────────────
+workflow:
+  etapes:
+    - numero: 1
+      nom: Collecte et identification
+      description: >
+        Collecter les données brutes fournies par l'utilisateur et identifier
+        le type de chaque source selon les codes définis.
+
+    - numero: 2
+      nom: Vérification des champs requis
+      description: >
+        Consulter references/champs-requis.md pour chaque type de source.
+        Repérer les champs obligatoires (✦) manquants.
+
+    - numero: 3
+      nom: Complétion par recherche web
+      description: >
+        Pour chaque champ obligatoire manquant, effectuer une recherche web
+        ciblée (Google Scholar, WorldCat, Sudoc, Légifrance, JORB, CAIRN, Persée).
+        Ne jamais inventer ou approximer. Signaler les introuvables.
+      sources_recherche:
+        - Google Scholar
+        - WorldCat / Sudoc / BnF
+        - CAIRN / Persée / JSTOR
+        - Légifrance
+        - Journal Officiel de la République du Bénin (JORB)
+        - Bases OHADA
+
+    - numero: 4
+      nom: Formatage selon normes ED-SJPA
+      description: >
+        Appliquer les formules de references/formules-citation.md.
+        Respecter italiques, guillemets, ordre des éléments et règles spéciales
+        (loi modifiée, et alii., inédit, etc.).
+
+    - numero: 5
+      nom: Génération du rapport Word
+      description: >
+        Construire l'objet JSON des sources formatées et exécuter
+        node references/generate-rapport.js [sources.json] [sortie.docx]
+
+    - numero: 6
+      nom: Validation et livraison
+      description: >
+        Vérifier les fins de référence (p. XX / XX pages), la cohérence des
+        formats de noms, et copier le fichier final dans /mnt/user-data/outputs/.
+
+# ─── RÈGLES TYPOGRAPHIQUES ────────────────────────────────────────────────────
+typographie:
+  italique:
+    - Titres d'ouvrages
+    - Titres de fascicules de cours
+    - Titres de mélanges
+    - Titres de mémoires et thèses
+    - Titres de lexiques et dictionnaires
+    - Affaires en cause (jurisprudence)
+    - Mention "inédit" pour fascicules non publiés
+  guillemets_doubles:
+    - Titres d'articles de doctrine
+    - Titres de contributions individuelles
+    - Titres de rapports, ateliers, colloques
+    - Titres de ressources webographie
+    - Titres d'études et observations
+  guillemets_ou_griffes:
+    - Titres de discours
+    - Titres d'émissions
+    - Titres d'entretiens
+    - Titres de communiqués
+
+# ─── FORMAT DES NOMS D'AUTEURS ────────────────────────────────────────────────
+format_auteurs:
+  formats_acceptes:
+    - "NOM (P.)"
+    - "NOM (Prénom)"
+    - "P. NOM"
+    - "Prénom NOM"
+    - "NOM P."
+    - "NOM Prénom"
+  recommande_bibliographie: "NOM (Prénom complet) ou NOM (Initiale.)"
+  recommande_note_bas_page: "NOM (Initiale.) ou NOM (Prénom complet)"
+  contrainte: >
+    Choisir UN seul format et le respecter dans l'intégralité du document.
+
+# ─── DIFFÉRENCES NOTE BAS DE PAGE / BIBLIOGRAPHIE ────────────────────────────
+distinction_notes:
+  note_bas_page:
+    fin_reference: "p. XX  (numéro de la page consultée)"
+    exception_jurisprudence: "même formule que la bibliographie"
+    exception_loi: "article précis cité en premier"
+  note_bibliographique:
+    fin_reference: "XX pages  (nombre total) ou  pp. XX-YY  (fourchette pour articles/contributions)"
+    exception_jurisprudence: "même formule que la note de bas de page"
+    exception_loi: "loi modifiée citée en premier si applicable"
+
+# ─── RÈGLES SPÉCIALES ─────────────────────────────────────────────────────────
+regles_speciales:
+  loi_modifiee:
+    note_bas_page: "Loi modificatrice PUIS loi modifiée"
+    note_bibliographique: "Loi modifiée PUIS loi modificatrice"
+  ouvrage_3_auteurs_ou_plus:
+    formule: "NOM (P.) et alii."
+    note: "Seul le premier auteur est mentionné, suivi de 'et alii.' ou 'et al.'"
+  source_non_publiee:
+    mention: "inédit (en italique) ou version inédite"
+    applicable_a: [FASCICULE, ARTICLE]
+  information_manquante:
+    comportement: "Omettre l'élément manquant et continuer"
+    reference: "Règle 4 du fascicule GBADAMASSI 2022-2023"
+    signalement: "Indiquer dans la Section III — Avertissements du rapport Word"
+
+# ─── STRUCTURE DU RAPPORT WORD GÉNÉRÉ ────────────────────────────────────────
+rapport_word:
+  sections:
+    - numero: "I"
+      titre: "Notes de bas de page"
+      contenu: >
+        Liste numérotée de toutes les notes, groupées par catégorie,
+        chaque note se terminant par p. XX.
+    - numero: "II"
+      titre: "Références bibliographiques complètes"
+      contenu: >
+        Références classées dans l'ordre académique standard :
+        ouvrages → fascicules → thèses/mémoires → articles → contributions
+        → rapports → ressources législatives → jurisprudence → lexiques
+        → webographie → audiovisuels.
+    - numero: "III"
+      titre: "Avertissements et informations manquantes"
+      contenu: >
+        Liste des sources avec informations non trouvées ou approximées,
+        à vérifier manuellement avant soumission.
+  mise_en_forme:
+    police: "Times New Roman"
+    taille_corps: "12pt"
+    taille_notes: "10pt"
+    format_page: "A4"
+    marges: "2.54 cm (1 pouce)"
+
+# ─── FORMAT D'ENTRÉE JSON POUR LE SCRIPT ──────────────────────────────────────
+format_entree_json:
+  description: >
+    Objet JSON transmis au script generate-rapport.js
+  schema:
+    titre_rapport: "string — Titre du mémoire ou travail de recherche"
+    auteur_travail: "string — Nom et prénom de l'auteur du mémoire"
+    date_generation: "string — Date au format JJ/MM/AAAA"
+    sources:
+      type: array
+      items:
+        id: "string — Identifiant unique de la source (ex: src001)"
+        type: "string — Code du type (ex: OUVRAGE, ARTICLE, LOI...)"
+        categorie: "string — Catégorie bibliographique pour le classement"
+        note_bas_page: "string — Texte formaté, *italiques* avec astérisques"
+        note_biblio: "string — Texte formaté, *italiques* avec astérisques"
+        avertissements: "array<string> — Liste des champs manquants ou approximés"
+
+# ─── POLITIQUE DE QUALITÉ ─────────────────────────────────────────────────────
+qualite:
+  interdictions:
+    - Inventer des données bibliographiques manquantes
+    - Approximer des numéros de page, d'édition ou d'année
+    - Utiliser Wikipédia comme source de vérification
+    - Mélanger les formats de noms d'auteurs dans un même document
+  obligations:
+    - Signaler toute information non trouvée dans la Section III
+    - Respecter l'ordre loi modificatrice/modifiée selon le contexte
+    - Mettre "inédit" en italique pour les sources non publiées
+    - Vérifier la cohérence du format de noms sur l'ensemble du rapport
