@@ -25,7 +25,7 @@ Administratives (**ED-SJPA**) de l'**Université d'Abomey-Calavi (UAC)**, Bénin
 
 Il repose sur le fascicule de référence :
 
-> **E. David GBADAMASSI**, *Notes de bas de pages et notes bibliographiques : Rédaction pratique*,
+> E. David GBADAMASSI, *Notes de bas de pages et notes bibliographiques : Rédaction pratique*,
 > UAC/ED-SJPA, Master 2 Droit Privé Fondamental, Année 2022-2023.
 
 ### Pourquoi ce projet ?
